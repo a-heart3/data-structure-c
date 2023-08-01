@@ -1,1 +1,3 @@
 1.in C, everything you want to modify in a function, you should offer the location, although it is a struct, which is not same to Java class
+
+2.in C, maybe just copy value, rather than copy locate, unless you use &
