@@ -1,3 +1,13 @@
 1.in C, everything you want to modify in a function, you should offer the location, although it is a struct, which is not same to Java class
 
 2.in C, maybe just copy value, rather than copy locate, unless you use &
+
+3.若是没有声明函数而是直接写函数体，那么调用函数时，被调用的函数要定义在调用的函数前
+例：void main a{                                  void main b{}
+       调用b；                                    void main a{
+    }                                                  调用b；可行
+    void main b{}                                 }
+    不可行
+
+4.先写出函数再去优化（把共同的部分提取出来，用HOF思想）
+5.代码是不断迭代的，不可能一下子就写出最好的代码，但要不断维护和更新，并考虑基本的面向对象编程的思想。
