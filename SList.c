@@ -58,6 +58,7 @@ int LocateElem(SList L, int e){
         return 0;
 }
 
+/* 判断函数位置是否合法的函数 */
 bool IsPosition (int size, int pos){
 	if (pos < 1 || pos > size) {
 		printf("error: wrong position!!!");
@@ -67,7 +68,7 @@ bool IsPosition (int size, int pos){
 }
 
 /*按位查找List, 设置计数器记录查找了多少个元素即可
-  1.当查找到链表尾部时， pos仍大于0， 说明位置不合法（其实可以先判断位置是否合法，用pos和size比较，但是懒得改了）
+  1.用IsPosition函数判断位置是否合法
   2.返回查找到的值
 */
 int GetElem(SList L, int pos) {
@@ -113,7 +114,7 @@ void AddLast(SList* L, int e) {
 }
 
 /*在某一个位置插入元素：
-  1.判断位置是否合法（利用size加pos）
+  1.用IsPosition函数判断位置是否合法
   2.查找至该元素的前一个位置
   3.判断是在尾部插入还是其它地方插入（尾部插入要更改last，这里可以用双循环链表优化）
   4.size要加一
@@ -162,7 +163,7 @@ int DeleteLast(SList* L) {
 }
 
 /*删除表中任意一个结点
-  1.判断删除位置（pos和size）
+  1.用IsPosition函数判断位置是否合法
   2.找到要删除的前一个结点
   3.判断是否删除的是最后一个结点
   4.删除
@@ -191,6 +192,7 @@ int Delete(SList* L, int pos) {
 	return 0;
 }
 
+/*输出list信息*/
 void PrintList(SList L) {
 	printf("your list name is:");
 	for (int i = 0; L.name[i] != '\0'; i++) {
