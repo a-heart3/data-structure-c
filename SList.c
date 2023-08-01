@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 /*定义节点类型*/
 typedef struct NODE {
@@ -57,23 +58,30 @@ int LocateElem(SList L, int e){
         return 0;
 }
 
+bool IsPosition (int size, int pos){
+	if (pos < 1 || pos > size) {
+		printf("error: wrong position!!!");
+		return false;
+	}
+	return true;
+}
+
 /*按位查找List, 设置计数器记录查找了多少个元素即可
   1.当查找到链表尾部时， pos仍大于0， 说明位置不合法（其实可以先判断位置是否合法，用pos和size比较，但是懒得改了）
   2.返回查找到的值
 */
 int GetElem(SList L, int pos) {
-	int position = pos;
+
+	if(!IsPosition(L.size, pos)){
+		return -1;
+	}
 	NODE *p = L.setinal->next;
-	while (p && pos > 0) {
+	while (pos > 0) {
 		p = p->next;
 		pos--;
 	}
-	if(p == NULL || pos > 0) {
-		printf("error: wrong position");
-		return -1;
-	}
-	printf("the %dth element in list is %d\n",position, p->data);
 
+	return p->data;
 }
 
 /*头插法：实现链表的原地逆置*/
@@ -111,17 +119,16 @@ void AddLast(SList* L, int e) {
   4.size要加一
 */
 int Insert(SList *L, int pos, int e) {
+	if(!IsPosition(L->size+1, pos)) {
+		return -2;
+	}
 	pos = pos - 1;
 	NODE *p = L->setinal;
 	while (p && pos > 0) {
 		p = p->next;
 		pos--;
 	}
-	if (pos > 0 || p == NULL) {
-		printf("error: the insert position illegal\n");
-		return -1;
-	}
-
+	
 	if (p->next == NULL) {
 		AddLast(L, e);
 	}
@@ -161,16 +168,16 @@ int DeleteLast(SList* L) {
   4.删除
 */
 int Delete(SList* L, int pos) {
+	if (!IsPosition(L->size, pos)){
+		return -1;
+	}
 	pos--;
 	NODE *p = L->setinal->next;
 	while (p && pos > 0) {
 		p = p->next;
 		pos--;
 	}
-	if(!p || !p->next || pos > 0) {
-		printf("error: delete postion is illegle\n");
-		return -1;
-	}
+	
 	if (L->last == p->next) {
 		DeleteLast(L);
 	}
