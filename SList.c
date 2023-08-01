@@ -67,6 +67,9 @@ bool IsPosition (int size, int pos){
 	return true;
 }
 
+/* 找出给定的pos的对应的位置
+   用于GetElem, Insert, Delete等函数
+*/
 NODE* Position (SList L, int pos) {
 	NODE *p = L.setinal;
 	while (pos > 0) {
