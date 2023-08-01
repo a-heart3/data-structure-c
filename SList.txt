@@ -1,0 +1,1 @@
+1.in C, everything you want to modify in a function, you should offer the location, although it is a struct, which is not same to Java class
