@@ -67,6 +67,15 @@ bool IsPosition (int size, int pos){
 	return true;
 }
 
+NODE* Position (SList L, int pos) {
+	NODE *p = L.setinal;
+	while (pos > 0) {
+		p = p->next;
+		pos--;
+	}
+	return p;
+}
+
 /*按位查找List, 设置计数器记录查找了多少个元素即可
   1.用IsPosition函数判断位置是否合法
   2.返回查找到的值
@@ -76,12 +85,9 @@ int GetElem(SList L, int pos) {
 	if(!IsPosition(L.size, pos)){
 		return -1;
 	}
-	NODE *p = L.setinal->next;
-	while (pos > 0) {
-		p = p->next;
-		pos--;
-	}
+	NODE *p = Position(L, pos);
 
+	printf("the %dth is %d\n", pos, p->data);
 	return p->data;
 }
 
@@ -91,6 +97,7 @@ void AddFirst(SList* L, int e){
        if (s == NULL) {
 	       printf("error: allocate memory defeat");
        }
+     //GetElem(*L, 3);
        s -> data = e;
        s -> next = L->setinal -> next;
        L->setinal -> next = s;
@@ -123,24 +130,16 @@ int Insert(SList *L, int pos, int e) {
 	if(!IsPosition(L->size+1, pos)) {
 		return -2;
 	}
-	pos = pos - 1;
-	NODE *p = L->setinal;
-	while (p && pos > 0) {
-		p = p->next;
-		pos--;
-	}
-	
-	if (p->next == NULL) {
+	if(pos == L->size + 1){
 		AddLast(L, e);
 	}
-	else{
-		NODE *s = malloc(sizeof(NODE));
-		s->data = e;
-	        s->next = p->next;
-	        p->next = s;
-	        L->size = L->size + 1;
 
-	}
+	NODE *p = Position(*L, pos - 1);
+        NODE *s = malloc(sizeof(NODE));
+	s->data = e;
+	s->next = p->next;
+	p->next = s;
+	L->size = L->size + 1;
 }
 
 /*删除最后一个结点：
@@ -152,10 +151,7 @@ int DeleteLast(SList* L) {
 		return 1;
 	}
 
-	NODE* p = L->setinal;
-	while (p->next != L->last) {
-		p = p->next;
-	}
+	NODE* p = Position(*L, L->size - 1);
 	L->last = p;
 	p->next = NULL;
 	L->size = L->size - 1;
@@ -172,22 +168,15 @@ int Delete(SList* L, int pos) {
 	if (!IsPosition(L->size, pos)){
 		return -1;
 	}
-	pos--;
-	NODE *p = L->setinal->next;
-	while (p && pos > 0) {
-		p = p->next;
-		pos--;
-	}
-	
-	if (L->last == p->next) {
+	if (pos == L->size) {
 		DeleteLast(L);
 	}
-	else {
-		NODE *s = p->next;
-		p->next = p->next->next;
-		L->size = L->size - 1;
-		free(s);
-	}
+
+	NODE *p = Position(*L, pos - 1);
+	NODE *s = p->next;
+	p->next = p->next->next;
+	L->size = L->size - 1;
+	free(s);
 
 	return 0;
 }
@@ -218,12 +207,13 @@ int main(void){
 	AddLast(&l1, 300);
 	Insert(&l1, 2, 500);
 	Insert(&l1, 2,1000);
-	DeleteLast(&l1);
-	Delete(&l1, 6);
-	Delete(&l1, 1);
+	GetElem(l1, 3);
 
 
 	PrintList(l1);
+	DeleteLast(&l1);
+	Delete(&l1, 1);
 	
+	PrintList(l1);
 	return 0;
 }
